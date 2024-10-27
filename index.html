@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Temperature Converter</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(to bottom right, #1e3c72, #2a69ac); /* Gradient background */
+            color: #f7f9fc; /* Light text color */
+            margin: 0;
+            padding: 0;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 100px auto;
+            padding: 30px;
+            background: rgba(255, 255, 255, 0.9); /* Semi-transparent white background */
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+            border-radius: 15px; /* More rounded corners */
+            text-align: center;
+        }
+
+        h1 {
+            color: #1e3c72; /* Darker title color */
+            margin-bottom: 20px;
+            font-size: 26px; /* Larger title font */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3); /* Soft shadow for depth */
+        }
+
+        .input-group {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px; /* Adjusted margin for better spacing */
+        }
+
+        .input-group select,
+        .input-group input[type="number"] {
+            flex: 1;
+            padding: 12px;
+            margin: 0 5px; /* Consistent margin between elements */
+            border: 2px solid #1e3c72; /* Darker blue border for input fields */
+            border-radius: 5px; /* Slightly more rounded corners */
+            transition: border-color 0.3s ease;
+        }
+
+        input[type="number"]:focus,
+        select:focus {
+            border-color: #2a69ac; /* Lighter blue on focus */
+            outline: none;
+        }
+
+        button {
+            flex: 1;
+            padding: 12px;
+            background-color: #1e3c72; /* Primary button color */
+            color: white;
+            border: none;
+            border-radius: 5px; /* Slightly more rounded corners */
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            font-weight: bold; /* Bold text for buttons */
+        }
+
+        button:hover {
+            background-color: #2a69ac; /* Lighter blue on hover */
+        }
+
+        .result-area {
+            margin-top: 20px;
+            font-size: 1.2em;
+            color: #1e3c72; /* Darker text color for results */
+            background-color: rgba(240, 240, 240, 0.8); /* Light gray background for results */
+            padding: 10px;
+            border-radius: 5px; /* Slightly more rounded corners */
+            border: 2px solid #1e3c72; /* Dark blue border for result area */
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1); /* Soft shadow */
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Temperature Converter</h1>
+        <div class="input-group">
+            <input type="number" id="temperatureInput" placeholder="Enter temperature" required>
+            <select id="inputUnit">
+                <option value="Celsius">°C</option>
+                <option value="Fahrenheit">°F</option>
+                <option value="Kelvin">K</option>
+            </select>
+        </div>
+        <div class="input-group">
+            <select id="outputUnit">
+                <option value="Celsius">°C</option>
+                <option value="Fahrenheit">°F</option>
+                <option value="Kelvin">K</option>
+            </select>
+            <button id="convertButton">Convert</button>
+        </div>
+        <div id="result" class="result-area"></div>
+    </div>
+    <script>
+        document.getElementById("convertButton").addEventListener("click", function() {
+            const tempInput = parseFloat(document.getElementById("temperatureInput").value);
+            const inputUnit = document.getElementById("inputUnit").value;
+            const outputUnit = document.getElementById("outputUnit").value;
+            let result;
+
+            if (isNaN(tempInput)) {
+                document.getElementById("result").innerText = "Please enter a valid number.";
+                return;
+            }
+
+            // Convert input temperature to Celsius
+            let tempInCelsius;
+            switch (inputUnit) {
+                case "Celsius":
+                    tempInCelsius = tempInput;
+                    break;
+                case "Fahrenheit":
+                    tempInCelsius = (tempInput - 32) * 5/9;
+                    break;
+                case "Kelvin":
+                    tempInCelsius = tempInput - 273.15;
+                    break;
+            }
+
+            // Convert Celsius to output unit
+            switch (outputUnit) {
+                case "Celsius":
+                    result = tempInCelsius;
+                    break;
+                case "Fahrenheit":
+                    result = (tempInCelsius * 9/5) + 32;
+                    break;
+                case "Kelvin":
+                    result = tempInCelsius + 273.15;
+                    break;
+            }
+
+            document.getElementById("result").innerText = `${tempInput} °${inputUnit.charAt(0)} = ${result.toFixed(2)} °${outputUnit.charAt(0)}`;
+        });
+    </script>
+</body>
+</html>
